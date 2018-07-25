@@ -18,6 +18,7 @@ public class Application {
 
   public static void main(String ags[]) throws Exception {
     long startTime = System.currentTimeMillis();
+    FileComparisonConstant fileComparisonConstant = new FileComparisonConstant();
     FileComparisonManager fileLoadProcess = new FileLoadProcessImpl();
     FileComparisonManager FileExtractionProcess = new FileExtractionProcessImpl();
     FileComparisonManager FileComparisonProcess = new FileComparisonProcessImpl();
