@@ -2,7 +2,6 @@ package com.file.comparison.dto;
 
 import com.file.comparison.conf.AbstractComparisonFile;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class SubFileColumnName extends AbstractComparisonFile {

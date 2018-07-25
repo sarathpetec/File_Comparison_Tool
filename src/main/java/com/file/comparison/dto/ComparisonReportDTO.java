@@ -1,7 +1,5 @@
 package com.file.comparison.dto;
 
-import java.util.Arrays;
-
 public class ComparisonReportDTO {
 
   int totalMasterRecordCount;

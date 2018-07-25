@@ -5,11 +5,11 @@ import com.file.comparison.process_manager_impl.FileComparisonProcessImpl;
 import com.file.comparison.process_manager_impl.FileExtractionProcessImpl;
 import com.file.comparison.process_manager_impl.FileLoadProcessImpl;
 import com.file.comparison.util.FileComparisonConstant;
+import jdk.nashorn.api.scripting.URLReader;
 
 import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Objects;
@@ -50,7 +50,7 @@ public class Application {
     // This will reference one line at a time
     String line = null;
 
-    try (BufferedReader bufferedReader = new BufferedReader(new FileReader(FileComparisonConstant.FILE_1));) {
+    try (BufferedReader bufferedReader = new BufferedReader(new URLReader(FileComparisonConstant.FILE_1));) {
 
       while (Objects.nonNull((line = bufferedReader.readLine()))) {
         System.out.println(line);

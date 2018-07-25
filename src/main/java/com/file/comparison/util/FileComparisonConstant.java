@@ -1,26 +1,32 @@
 package com.file.comparison.util;
 
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-public interface FileComparisonConstant {
+public class FileComparisonConstant {
+
+  public static URL FIELD_MAPPING_FILE;
+  public static URL MASTER_FILE;
+  public static URL FILE_1;
 
 
-  Map<Object, Object> executionContext = new HashMap<>();
+  public FileComparisonConstant() {
+    FIELD_MAPPING_FILE = this.getClass().getResource("/Field_Mapper.txt");
+    MASTER_FILE = this.getClass().getResource("/Master_File.txt");
+    FILE_1 = this.getClass().getResource("/Sub_File_1.txt");
+  }
 
-  short TOTAL_NUMBER_OF_FILE = 2;
-  String FIELD_MAPPING_FILE = "FieldMapper.txt";
-  String MASTER_FILE = "Master_File.txt";
-  String FILE_1 = "Sub_File_1.txt";
-
-  String FILE_DELIMITER = ",";
-  String FILE_MAPPER_SEPERATOR = "\\|";
-  String FILE_MAPPER_COMBINATION = "&";
-  String FILE_MAPPER_IF_CASE = "if";
-  String FILE_MAPPER_ELSE_CASE = "else";
-  String FILE_MAPPER_OPENING_BRACKET = "(";
-  String FILE_MAPPER_CLOSING_BRACKET = ")";
-  String FILE_ENCAPSULATE = "$";
+  public static Map<Object, Object> executionContext = new HashMap<>();
+  public static final short TOTAL_NUMBER_OF_FILE = 2;
+  public static final String FILE_DELIMITER = ",";
+  public static final String FILE_MAPPER_SEPERATOR = "\\|";
+  public static final String FILE_MAPPER_COMBINATION = "&";
+  public static final String FILE_MAPPER_IF_CASE = "if";
+  public static final String FILE_MAPPER_ELSE_CASE = "else";
+  public static final String FILE_MAPPER_OPENING_BRACKET = "(";
+  public static final String FILE_MAPPER_CLOSING_BRACKET = ")";
+  public static final String FILE_ENCAPSULATE = "$";
 
 
 

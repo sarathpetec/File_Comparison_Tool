@@ -1,7 +1,5 @@
 package com.file.comparison.process_manager;
 
-import java.util.Map;
-
 public interface FileComparisonManager {
 
 
