@@ -1,0 +1,13 @@
+.*.swp
+.checkstyle
+.classpath
+.idea/
+.junk/
+.project
+.settings/
+.vagrant/
+*.iml
+nb-configuration.xml
+target/
+src/site/asciidoc/api-docs/generated/
+src/site/asciidoc/api-docs/rest-api-index.adoc
