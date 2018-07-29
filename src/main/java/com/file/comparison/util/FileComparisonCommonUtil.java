@@ -157,7 +157,7 @@ public class FileComparisonCommonUtil {
                     //mNodeValue.add(mNodeConditionPosition);
                     //masterColumnName.setmNode(mNodeValue);
                   } else { // Other files
-                    System.out.println("elseeeeeeeeeeeeeeeee: "+index);
+                    //System.out.println("elseeeeeeeeeeeeeeeee: "+index);
                     conditionSplitList.add(index);
 
                   }
@@ -168,7 +168,7 @@ public class FileComparisonCommonUtil {
                 }
               } else{
                 index = getStringArrayIndex(fileColumnNameList.get(i), conditionSplitArray[x]);
-                System.out.println("index*****:"+index);
+                //System.out.println("index*****:"+index);
                 if(i==0 && index != -1 && index != -2){ // MASTER file
                   mNodeConditionPosition.add(index);
                   mNodeValue.add(mNodeConditionPosition);

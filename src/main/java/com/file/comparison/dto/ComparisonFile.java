@@ -5,6 +5,7 @@ import com.file.comparison.conf.AbstractComparisonFile;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class ComparisonFile extends AbstractComparisonFile {
 
@@ -36,6 +37,20 @@ public class ComparisonFile extends AbstractComparisonFile {
 
   public void setCellValues(Map<String, String[]> cellValues) {
     this.cellValues = cellValues;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof ComparisonFile)) return false;
+    ComparisonFile that = (ComparisonFile) o;
+    return Objects.equals(getCellValues(), that.getCellValues());
+  }
+
+  @Override
+  public int hashCode() {
+
+    return Objects.hash(getCellValues());
   }
 
   @Override

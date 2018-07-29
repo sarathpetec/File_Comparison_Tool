@@ -4,6 +4,7 @@ import com.file.comparison.process_manager.FileComparisonManager;
 import com.file.comparison.process_manager_impl.FileComparisonProcessImpl;
 import com.file.comparison.process_manager_impl.FileExtractionProcessImpl;
 import com.file.comparison.process_manager_impl.FileLoadProcessImpl;
+import com.file.comparison.process_manager_impl.ReportGenerateProcessImpl;
 import com.file.comparison.util.FileComparisonConstant;
 import jdk.nashorn.api.scripting.URLReader;
 
@@ -22,6 +23,8 @@ public class Application {
     FileComparisonManager fileLoadProcess = new FileLoadProcessImpl();
     FileComparisonManager FileExtractionProcess = new FileExtractionProcessImpl();
     FileComparisonManager FileComparisonProcess = new FileComparisonProcessImpl();
+    FileComparisonManager ReportGenerateProcess = new ReportGenerateProcessImpl();
+
 
     Map<Object, Object> executionContext = FileComparisonConstant.executionContext;
     fileLoadProcess.init();
@@ -29,13 +32,14 @@ public class Application {
     FileExtractionProcess.init();
     FileExtractionProcess.preProcess();
     FileComparisonProcess.preProcess();
+    ReportGenerateProcess.preProcess();
 
     BufferedReader masterBufferedReader = (BufferedReader) executionContext.get("MASTER_FILE_BUFFERED_READER");
     BufferedReader subFileBufferedReader = (BufferedReader) executionContext.get("FILE_1_BUFFERED_READER");
     masterBufferedReader.close();
     subFileBufferedReader.close();
     long endTime = System.currentTimeMillis();
-    System.out.println("Throughput: "+(endTime - startTime));
+    System.out.println("Throughput: "+((endTime - startTime)/1000)+" sec");
     /*javax.swing.SwingUtilities.invokeLater(new Runnable() {
       public void run() {
         createAndShowGUI();

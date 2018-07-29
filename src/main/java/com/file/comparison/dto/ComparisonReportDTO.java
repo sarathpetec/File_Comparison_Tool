@@ -5,17 +5,20 @@ public class ComparisonReportDTO {
   int totalMasterRecordCount;
   int[] totalSubFileRecordCount;
   MasterFile masterFile;
+  FieldWiseReport[] fieldWiseReports;
 
   MissingRecords missingRecords;
   NotEqualRecords notEqualRecords;
 
-  int totalNumberOfRecordInSync;
+  int totalNumberOfRecordInSync[];
 
 
-  public ComparisonReportDTO(int totalMasterRecordCount, int[] totalSubFileRecordCount, MasterFile masterFile) {
+  public ComparisonReportDTO(int totalMasterRecordCount, int[] totalSubFileRecordCount, MasterFile masterFile, int size) {
     this.totalMasterRecordCount=totalMasterRecordCount;
     this.totalSubFileRecordCount=totalSubFileRecordCount;
     this.masterFile=masterFile;
+    this.fieldWiseReports = new FieldWiseReport[size];
+    totalNumberOfRecordInSync = new int[size];
   }
 
 
@@ -27,11 +30,11 @@ public class ComparisonReportDTO {
     this.missingRecords = missingRecords;
   }
 
-  public int getTotalNumberOfRecordInSync() {
+  public int[] getTotalNumberOfRecordInSync() {
     return totalNumberOfRecordInSync;
   }
 
-  public void setTotalNumberOfRecordInSync(int totalNumberOfRecordInSync) {
+  public void setTotalNumberOfRecordInSync(int[] totalNumberOfRecordInSync) {
     this.totalNumberOfRecordInSync = totalNumberOfRecordInSync;
   }
 
@@ -41,6 +44,14 @@ public class ComparisonReportDTO {
 
   public void setNotEqualRecords(NotEqualRecords notEqualRecords) {
     this.notEqualRecords = notEqualRecords;
+  }
+
+  public FieldWiseReport[] getFieldWiseReports() {
+    return fieldWiseReports;
+  }
+
+  public void setFieldWiseReports(FieldWiseReport[] fieldWiseReports) {
+    this.fieldWiseReports = fieldWiseReports;
   }
 
  /* @Override

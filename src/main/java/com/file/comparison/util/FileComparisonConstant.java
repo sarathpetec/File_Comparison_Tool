@@ -27,6 +27,8 @@ public class FileComparisonConstant {
   public static final String FILE_MAPPER_OPENING_BRACKET = "(";
   public static final String FILE_MAPPER_CLOSING_BRACKET = ")";
   public static final String FILE_ENCAPSULATE = "$";
+  public static final Boolean CONSIDER_CASE_IN_CHECKING = false;
+  public static final String NOT_EQUAL_REPERSENTING_STRING = "C";
 
 
 
