@@ -77,7 +77,7 @@ public class FileExtractionProcessImpl implements FileComparisonManager {
     } else {
       multipleUniqueFields = true;
     }*/
-    String[] key = new String[masterFile.getComparisonUniqueFieldId().length];
+    String[] key;
     while (Objects.nonNull((line = masterBufferedReader.readLine()))) {
       key = new String[masterFile.getMasterFileUniqueFieldId().length];
       String[] lineArray = line.split(FileComparisonConstant.FILE_DELIMITER, -1);
@@ -86,6 +86,7 @@ public class FileExtractionProcessImpl implements FileComparisonManager {
       }
       cellValues.put(key, lineArray);
     }
+    masterFile.setCellValues(cellValues);
     FileComparisonCommonUtil.addToExecutionContext("MASTER_FILE_OBJECT", masterFile);
 //   Arrays.stream(masterFile.getCellValues()).forEach(strings -> System.out.println("Dataa: "+strings[12]+","+strings[1]+","+strings[4]));
   }

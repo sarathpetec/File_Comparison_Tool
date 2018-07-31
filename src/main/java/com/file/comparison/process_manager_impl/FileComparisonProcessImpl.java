@@ -8,8 +8,7 @@ import com.file.comparison.util.FileComparisonCommonUtil;
 import java.util.*;
 
 import static com.file.comparison.util.FileComparisonCommonUtil.getValueFromExeContext;
-import static com.file.comparison.util.FileComparisonConstant.CONSIDER_CASE_IN_CHECKING;
-import static com.file.comparison.util.FileComparisonConstant.NOT_EQUAL_REPERSENTING_STRING;
+import static com.file.comparison.util.FileComparisonConstant.*;
 
 public class FileComparisonProcessImpl implements FileComparisonManager {
 
@@ -26,8 +25,8 @@ public class FileComparisonProcessImpl implements FileComparisonManager {
     FieldMapper fieldMapper = (FieldMapper) getValueFromExeContext("FIELD_MAPPER_OBJECT");
     String[] master_column_name_arrays = (String[]) FileComparisonCommonUtil.getValueFromExeContext("MASTER_COLUMN_NAME_ARRAY");
     LinkedList<MasterColumnName> masterFieldsLinkedList = fieldMapper.getMasterFields();
-    System.out.println("masterFieldsLinkedList.size(): " + masterFieldsLinkedList.size());
-    masterFieldsLinkedList.stream().forEach(masterColumnNames -> System.out.println("test: " + masterColumnNames));
+    //System.out.println("masterFieldsLinkedList.size(): " + masterFieldsLinkedList.size());
+    //masterFieldsLinkedList.stream().forEach(masterColumnNames -> System.out.println("test: " + masterColumnNames));
     MasterFile masterFile = (MasterFile) getValueFromExeContext("MASTER_FILE_OBJECT");
     ComparisonFile comparisonFile = (ComparisonFile) FileComparisonCommonUtil.getValueFromExeContext("COMPARISON_FILE_OBJECT");
     MissingRecords missingRecords = new MissingRecords();
@@ -52,7 +51,7 @@ public class FileComparisonProcessImpl implements FileComparisonManager {
     if (masterFile.isCompare_only_data_present_in_master_file()) {
       ComparisonDetailReport comparisonDetailReport = new ComparisonDetailReport();
       for (Map.Entry<String[], String[]> masterFileCellValue : masterFile.getCellValues().entrySet()) {
-        //comparisonDetailReport = new ComparisonDetailReport();
+//        System.out.println("Data: "+masterFileCellValue.getKey()[0]+", "+masterFileCellValue.getKey()[1]);
         tempNotEqualRecordArray = new String[masterFile.getMasterFileUniqueFieldId().length + master_column_name_arrays.length];
         for (int i = 0; i < masterFile.getMasterFileUniqueFieldId().length; i++) {
           tempNotEqualRecordArray[i] = masterFileCellValue.getKey()[i];
@@ -62,6 +61,7 @@ public class FileComparisonProcessImpl implements FileComparisonManager {
           String subFileCellData[] = comparisonFile.getCellValues().get(masterFileCellValue.getKey()[0]);
           for (int masterFileFielsCount = 0; masterFileFielsCount < masterFieldsLinkedList.size(); masterFileFielsCount++) {
             MasterColumnName masterColumnName = masterFieldsLinkedList.get(masterFileFielsCount);
+            //System.out.println("masterColumnName: "+masterColumnName.toString());
             FieldWiseReport fieldWiseReport;
             if (Objects.isNull(fieldWiseReports[masterFileFielsCount])) {
               fieldWiseReport = new FieldWiseReport();
@@ -78,23 +78,41 @@ public class FileComparisonProcessImpl implements FileComparisonManager {
                 for (int a = 0; a < masterColumnName.getmNode().get(0).size(); a++) {
                   masterFileFieldValue = masterFileFieldValue.concat(masterFileCellData[(short) masterColumnName.getmNode().get(0).get(a)]);
                 }
+              } else {
+                masterFileFieldValue = "";
               }
+            } else {
+              masterFileFieldValue = NO_MAPPPING_WITH_OTHER_FILE;
             }
             /* Sub file going to start*/
-            if (Objects.nonNull(masterColumnName.getSubFileField().getSubFileNode())) {
+            if (Objects.nonNull(masterColumnName.getSubFileField().getSubFileNode()) && masterColumnName.getSubFileField().getSubFileNode().size() > 0) {
               int subFileConditionSize;
               int subFilesSize = masterColumnName.getSubFileField().getSubFileNode().size();
               if (subFilesSize == 1) {
-                subFileConditionSize = masterColumnName.getSubFileField().getSubFileNode().get(0).get(0).size();
-                if (subFileConditionSize == 1) {
-                  subFileFieldValue = subFileCellData[(short) masterColumnName.getSubFileField().getSubFileNode().get(0).get(0).get(0)];
-                } else {
-                  for (int i = 0; i < subFileConditionSize; i++) {
-                    for (int j = 0; j < masterColumnName.getSubFileField().getSubFileNode().get(0).get(i).size(); j++) {
-                      subFileFieldValue = subFileFieldValue + subFileCellData[(short) masterColumnName.getSubFileField().getSubFileNode().get(0).get(i).get(j)];
+                int conditionCaseSize = masterColumnName.getSubFileField().getSubFileNode().get(0).size();
+                if (conditionCaseSize == 1) {
+                  subFileConditionSize = masterColumnName.getSubFileField().getSubFileNode().get(0).get(0).size();
+                  if (subFileConditionSize == 1) {
+                    subFileFieldValue = subFileCellData[(short) masterColumnName.getSubFileField().getSubFileNode().get(0).get(0).get(0)];
+                  } else {
+                    for (int i = 0; i < subFileConditionSize; i++) {
+                      for (int j = 0; j < masterColumnName.getSubFileField().getSubFileNode().get(0).get(i).size(); j++) {
+                        subFileFieldValue = subFileFieldValue.concat(subFileCellData[(short) masterColumnName.getSubFileField().getSubFileNode().get(0).get(i).get(j)]);
+                      }
+                      if (subFileFieldValue.length() > 0) {
+                        break;
+                      }
                     }
-                    if (subFileFieldValue.length() > 0) {
-                      break;
+                  }
+                } else if (conditionCaseSize == 2) {
+                  subFileFieldValue = "";
+                  for (int i = 0; i < conditionCaseSize; i++) {
+                    if (masterColumnName.getSubFileField().getSubFileNode().get(0).get(i).size() == 1) {
+                      subFileFieldValue = subFileCellData[(short) masterColumnName.getSubFileField().getSubFileNode().get(0).get(0).get(i)];
+                    } else if (subFileFieldValue.length() == 0) {
+                      for (int x = 0; x < masterColumnName.getSubFileField().getSubFileNode().get(0).get(i).size(); x++) {
+                        subFileFieldValue = subFileFieldValue.concat(subFileCellData[(short) masterColumnName.getSubFileField().getSubFileNode().get(0).get(i).get(x)]);
+                      }
                     }
                   }
                 }
@@ -102,6 +120,8 @@ public class FileComparisonProcessImpl implements FileComparisonManager {
                 //More than one file in sub file list
                 System.out.println("More than one file in sub file list");
               }
+            } else {
+              subFileFieldValue = NO_MAPPPING_WITH_OTHER_FILE;
             }
             findMatchingCell(masterFileFieldValue, subFileFieldValue, fieldWiseReport);
             fieldWiseReports[masterFileFielsCount] = fieldWiseReport;
@@ -112,29 +132,29 @@ public class FileComparisonProcessImpl implements FileComparisonManager {
           comparisonDetailReports.add(comparisonDetailReport);
           allFieldInSyncLst.clear();
         } else { // No record found in sub file list
+//          System.out.println("Missing date: "+masterFileCellValue.getKey()[0]+", "+masterFileCellValue.getKey()[1]);
           missingRecordArray = new String[]{masterFileCellValue.getKey()[0], masterFileCellValue.getKey()[1]};
           missingRecordsList.add(missingRecordArray);
         }
       }
-      //comparisonDetailReport.setFieldWiseReports(fieldWiseReports);
     }
-    //fieldWiseReports.stream().forEach(fieldWiseReport -> System.out.println(fieldWiseReport.toString()));
-    System.out.println("fieldWiseReports Size: " + fieldWiseReports.length);
-    Arrays.stream(fieldWiseReports).forEach(fieldWiseReport -> System.out.println(fieldWiseReport.toString()));
     FileComparisonCommonUtil.addToExecutionContext("COMPARISON_DETAIL_REPORT", comparisonDetailReports);
     missingRecords.setMissingRecordsList(missingRecordsList);
     notEqualRecords.setNotEqualRecordsList(notEqualRecordsList);
     comparisonReportDTO.setMissingRecords(missingRecords);
     comparisonReportDTO.setNotEqualRecords(notEqualRecords);
     comparisonReportDTO.setFieldWiseReports(fieldWiseReports);
+    System.out.println("fieldWiseReports Size: " + comparisonReportDTO.getFieldWiseReports().length);
+    Arrays.stream(comparisonReportDTO.getFieldWiseReports()).forEach(fieldWiseReport -> System.out.println(fieldWiseReport.toString()));
+    FileComparisonCommonUtil.addToExecutionContext("COMPARISON_REPORT_DTO", comparisonReportDTO);
   }
 
   private void updateTotalSyncCount() {
     ComparisonReportDTO comparisonReportDTO = (ComparisonReportDTO) getValueFromExeContext("COMPARISON_REPORT_DTO");
     //System.out.println("allFieldInSyncLst: " + allFieldInSyncLst);
     int totalNumberOfRecordInSync[] = comparisonReportDTO.getTotalNumberOfRecordInSync();
-    for(int i=0; i<totalNumberOfRecordInSync.length;i++){
-      if(allFieldInSyncLst.get(i) == Boolean.TRUE){
+    for (int i = 0; i < totalNumberOfRecordInSync.length; i++) {
+      if (allFieldInSyncLst.get(i) == Boolean.TRUE) {
         totalNumberOfRecordInSync[i] = totalNumberOfRecordInSync[i] + 1;
       }
     }
@@ -167,11 +187,13 @@ public class FileComparisonProcessImpl implements FileComparisonManager {
     if (("".equals(masterFileFieldValue) && "".equals(subFileFieldValue)) || (Objects.isNull(masterFileFieldValue) && Objects.isNull(subFileFieldValue))) {
       fieldWiseReport.setAllFileEmptyValueCount(fieldWiseReport.getAllFileEmptyValueCount() + 1);
       allFieldInSyncLst.add(true);
-    } else if ("".equals(masterFileFieldValue)) {
+    } else if ("".equals(masterFileFieldValue) || FILE_ENCAPSULATE.equals(masterFileFieldValue)) {
       fieldWiseReport.setMasterFileEmptyValueCount(fieldWiseReport.getMasterFileEmptyValueCount() + 1);
       allFieldInSyncLst.add(false);
     } else if ("".equals(subFileFieldValue)) {
       fieldWiseReport.setSubFileEmptyValueCount(fieldWiseReport.getSubFileEmptyValueCount() + 1);
+      allFieldInSyncLst.add(false);
+    } else if (NO_MAPPPING_WITH_OTHER_FILE.equals(masterFileFieldValue) || NO_MAPPPING_WITH_OTHER_FILE.equals(subFileFieldValue)) {
       allFieldInSyncLst.add(false);
     } else {
       checkMatch(masterFileFieldValue, subFileFieldValue, fieldWiseReport);
