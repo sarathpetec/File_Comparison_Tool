@@ -87,6 +87,7 @@ public class FileExtractionProcessImpl implements FileComparisonManager {
       cellValues.put(key, lineArray);
     }
     masterFile.setCellValues(cellValues);
+    System.out.println("Master file size:"+masterFile.getCellValues().size());
     FileComparisonCommonUtil.addToExecutionContext("MASTER_FILE_OBJECT", masterFile);
 //   Arrays.stream(masterFile.getCellValues()).forEach(strings -> System.out.println("Dataa: "+strings[12]+","+strings[1]+","+strings[4]));
   }
@@ -116,6 +117,7 @@ public class FileExtractionProcessImpl implements FileComparisonManager {
         cellValues.put(key, lineArray);
       }
       comparisonFile.setCellValues(cellValues);
+      System.out.println("Comparison file size:"+comparisonFile.getSize());
       FileComparisonCommonUtil.addToExecutionContext("COMPARISON_FILE_OBJECT", comparisonFile);
       //Arrays.stream(comparisonFile.getCellValues()).forEach(strings -> System.out.println("Dataa: " + strings[0] + "," + strings[1] + "," + strings[4]));
 

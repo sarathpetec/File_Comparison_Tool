@@ -12,6 +12,7 @@ public class ComparisonFile extends AbstractComparisonFile {
   Map<String, String[]> cellValues = new HashMap<>();
   int[] comparisonFileUniqueFieldId = {0};//Zero'th index value should be same as comparisonUniqueFieldId
   int[] comparisonUniqueFieldId = {0};
+  int size;
 
 
 
@@ -37,6 +38,10 @@ public class ComparisonFile extends AbstractComparisonFile {
 
   public void setCellValues(Map<String, String[]> cellValues) {
     this.cellValues = cellValues;
+  }
+
+  public int getSize() {
+    return getCellValues().size();
   }
 
   @Override

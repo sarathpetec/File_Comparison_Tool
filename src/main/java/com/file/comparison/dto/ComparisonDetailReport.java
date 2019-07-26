@@ -4,14 +4,14 @@ import java.util.ArrayList;
 
 public class ComparisonDetailReport {
 
-  ArrayList<Boolean> rowWiseStatus;
+  ArrayList<String> rowWiseStatus;
 
 
-  public ArrayList<Boolean> getRowWiseStatus() {
+  public ArrayList<String> getRowWiseStatus() {
     return rowWiseStatus;
   }
 
-  public void setRowWiseStatus(ArrayList<Boolean> rowWiseStatus) {
+  public void setRowWiseStatus(ArrayList<String> rowWiseStatus) {
     this.rowWiseStatus = rowWiseStatus;
   }
 

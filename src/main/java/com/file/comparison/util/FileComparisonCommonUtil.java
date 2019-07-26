@@ -76,6 +76,12 @@ public class FileComparisonCommonUtil {
 
   }
 
+  public static String removeSpecialCharacterFromString(String data) {
+    String specialCharacter[] ={"$","\""};
+
+    return data;
+  }
+
   public static final FieldMapper objectToIndexLocationForFieldMapper(FieldMapper fieldMapper) {
     Map<Integer, LinkedList<String>> fieldMapperFile = fieldMapper.getFieldMapperFile();
     LinkedList<MasterColumnName> masterFieldsLinkedList = new LinkedList<>();
