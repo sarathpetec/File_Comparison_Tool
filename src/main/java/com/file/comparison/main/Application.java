@@ -9,20 +9,16 @@ import com.file.comparison.util.FileComparisonConstant;
 import jdk.nashorn.api.scripting.URLReader;
 
 import javax.swing.*;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.util.Map;
 import java.util.Objects;
 
-import static com.file.comparison.util.FileComparisonConstant.FILE_1_BUFFERED_READER;
-import static com.file.comparison.util.FileComparisonConstant.MASTER_FILE_BUFFERED_READER;
+import static com.file.comparison.util.FileComparisonConstant.*;
 
 public class Application {
 
   public static void main(String ags[]) throws Exception {
     long startTime = System.currentTimeMillis();
-    FileComparisonConstant fileComparisonConstant = new FileComparisonConstant();
     FileComparisonManager fileLoadProcess = new FileLoadProcessImpl();
     FileComparisonManager FileExtractionProcess = new FileExtractionProcessImpl();
     FileComparisonManager FileComparisonProcess = new FileComparisonProcessImpl();
@@ -54,22 +50,21 @@ public class Application {
   private static void readText() {
     // The name of the file to open.
 
-
     // This will reference one line at a time
     String line = null;
 
-    try (BufferedReader bufferedReader = new BufferedReader(new URLReader(FileComparisonConstant.FILE_1));) {
-
+    try (InputStreamReader inputStreamReader =
+        new InputStreamReader(Application.class.getResourceAsStream(FILE_1))) {
+      BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
       while (Objects.nonNull((line = bufferedReader.readLine()))) {
         System.out.println(line);
       }
     } catch (FileNotFoundException ex) {
       System.out.println("Unable to open file '" + FileComparisonConstant.FILE_1 + "'");
     } catch (IOException ex) {
-      System.out.println("Error reading file '"+ FileComparisonConstant.FILE_1 + "'");
+      System.out.println("Error reading file '" + FileComparisonConstant.FILE_1 + "'");
     }
   }
-
 
   private static void createAndShowGUI() {
     //Make sure we have nice window decorations.

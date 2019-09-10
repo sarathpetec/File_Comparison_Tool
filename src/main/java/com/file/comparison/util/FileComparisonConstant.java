@@ -10,20 +10,20 @@ public class FileComparisonConstant {
 
   static DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd_MM_yyyy_HH_mm_ss");
   static LocalDateTime now = LocalDateTime.now();
-  public static URL FIELD_MAPPING_FILE;
-  public static URL MASTER_FILE;
-  public static URL FILE_1;
+  public static String FIELD_MAPPING_FILE = "/Field_Mapper.txt";
+  public static String MASTER_FILE = "/Master_File.txt";
+  public static String FILE_1 = "/Sub_File_1.txt";
   public static String COMMON_REPORT_OUTPUT_FILE ="src\\main\\resources\\Comparison_Common_Report_"+dtf.format(now)+".csv";
   public static String COMPARISON_RESULT_OUTPUT_FILE ="src\\main\\resources\\Comparison_Result_Report_"+dtf.format(now)+".csv";
   public static String NOT_EQUAL_RECORDS_OUTPUT_FILE ="src\\main\\resources\\Not_Equal_Records_"+dtf.format(now)+".csv";
   public static String MISSING_RECORDS_OUTPUT_FILE ="src\\main\\resources\\Missing_Records_"+dtf.format(now)+".csv";
 
 
-  public FileComparisonConstant() {
+/*  public FileComparisonConstant() {
     FIELD_MAPPING_FILE = this.getClass().getResource("/Field_Mapper.txt");
-    MASTER_FILE = this.getClass().getResource("/Master_File.txt");
-    FILE_1 = this.getClass().getResource("/Sub_File_1.txt");
-  }
+    MASTER_FILE = this.getClass().getResource();
+    FILE_1 = this.getClass().getResource();
+  }*/
 
   public static Map<Object, Object> executionContext = new HashMap<>();
   public static final short TOTAL_NUMBER_OF_FILE = 2;

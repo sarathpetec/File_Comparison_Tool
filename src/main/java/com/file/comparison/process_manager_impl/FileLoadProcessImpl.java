@@ -6,6 +6,9 @@ import com.file.comparison.util.FileComparisonConstant;
 import jdk.nashorn.api.scripting.URLReader;
 
 import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.stream.Collectors;
 
 import static com.file.comparison.util.FileComparisonConstant.*;
 
@@ -17,9 +20,9 @@ public class FileLoadProcessImpl implements FileComparisonManager {
   @Override
   public void init() {
     try {
-      BufferedReader subFileBufferedReader = new BufferedReader(new URLReader(FileComparisonConstant.FILE_1));
-      BufferedReader masterBufferedReader = new BufferedReader(new URLReader(FileComparisonConstant.MASTER_FILE));
-      BufferedReader fileMapperBufferedReader = new BufferedReader(new URLReader(FileComparisonConstant.FIELD_MAPPING_FILE));
+      BufferedReader subFileBufferedReader = new BufferedReader(new InputStreamReader(FileLoadProcessImpl.class.getResourceAsStream(FILE_1)));
+      BufferedReader masterBufferedReader = new BufferedReader(new InputStreamReader(FileLoadProcessImpl.class.getResourceAsStream(MASTER_FILE)));
+      BufferedReader fileMapperBufferedReader = new BufferedReader(new InputStreamReader(FileLoadProcessImpl.class.getResourceAsStream(FIELD_MAPPING_FILE)));
       FileComparisonCommonUtil.addToExecutionContext(MASTER_FILE_BUFFERED_READER, masterBufferedReader);
       FileComparisonCommonUtil.addToExecutionContext(FILE_1_BUFFERED_READER, subFileBufferedReader);
       FileComparisonCommonUtil.addToExecutionContext(FIELD_MAPPER_BUFFERED_READER, fileMapperBufferedReader);
