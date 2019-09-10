@@ -40,6 +40,20 @@ public class FileComparisonConstant {
   public static final char DEFAULT_SEPARATOR_FOR_CSV = ',';
   public static final String NO_MAPPPING_WITH_OTHER_FILE = "NO_MAPPPING_WITH_OTHER_FILE";
 
+  public static final int[] MASTER_FILE_UNIQUE_FIELD_ID = {0,0}; //Zero'th index value should be same as comparisonUniqueFieldId
+  public static final int[] COMPARISON_UNIQUE_FIELD_ID = {0};
+
+  public static final String MASTER_FILE_BUFFERED_READER = "MASTER_FILE_BUFFERED_READER";
+  public static final String FILE_1_BUFFERED_READER = "FILE_1_BUFFERED_READER";
+  public static final String FIELD_MAPPER_BUFFERED_READER = "FIELD_MAPPER_BUFFERED_READER";
+  public static final String MASTER_COLUMN_NAME_ARRAY = "MASTER_COLUMN_NAME_ARRAY";
+  public static final String SUB_FILE_COLUMN_NAME_ARRAY = "SUB_FILE_COLUMN_NAME_ARRAY";
+  public static final String ALL_FILE_COLUMN_NAME_LIST = "ALL_FILE_COLUMN_NAME_LIST";
+  public static final String FIELD_MAPPER_OBJECT = "FIELD_MAPPER_OBJECT";
+
+  public static final String NULL = "null" ;
+  public static final String EMPTY_STRING = "";
+
 
 
 }

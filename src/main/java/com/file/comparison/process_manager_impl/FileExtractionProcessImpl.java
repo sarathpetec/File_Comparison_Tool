@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import static com.file.comparison.util.FileComparisonConstant.*;
+
 public class FileExtractionProcessImpl implements FileComparisonManager {
 
   BufferedReader masterBufferedReader = null;
@@ -20,28 +22,28 @@ public class FileExtractionProcessImpl implements FileComparisonManager {
   BufferedReader fileMapperBufferedReader = null;
 
   @Override
-  public void init() throws Exception {
-    masterBufferedReader = (BufferedReader) FileComparisonCommonUtil.getValueFromExeContext("MASTER_FILE_BUFFERED_READER");
-    subFileBufferedReader = (BufferedReader) FileComparisonCommonUtil.getValueFromExeContext("FILE_1_BUFFERED_READER");
-    fileMapperBufferedReader = (BufferedReader) FileComparisonCommonUtil.getValueFromExeContext("FIELD_MAPPER_BUFFERED_READER");
+  public void init() {
+    masterBufferedReader = (BufferedReader) FileComparisonCommonUtil.getValueFromExeContext(MASTER_FILE_BUFFERED_READER);
+    subFileBufferedReader = (BufferedReader) FileComparisonCommonUtil.getValueFromExeContext(FILE_1_BUFFERED_READER);
+    fileMapperBufferedReader = (BufferedReader) FileComparisonCommonUtil.getValueFromExeContext(FIELD_MAPPER_BUFFERED_READER);
   }
 
   @Override
   public void preProcess() throws Exception {
 
-    List<String[]> fileColumnNameList = new LinkedList<>();
+    List<String[]> allFileColumnNameList = new LinkedList<>();
     String[] masterColumnNames = masterBufferedReader.readLine().split(FileComparisonConstant.FILE_DELIMITER);
     String[] subFileColumnNames = subFileBufferedReader.readLine().split(FileComparisonConstant.FILE_DELIMITER);
-    FileComparisonCommonUtil.addToExecutionContext("MASTER_COLUMN_NAME_ARRAY", masterColumnNames);
-    FileComparisonCommonUtil.addToExecutionContext("SUB_FILE_COLUMN_NAME_ARRAY", subFileColumnNames);
-    fileColumnNameList.add(masterColumnNames);
-    fileColumnNameList.add(subFileColumnNames);
-    FileComparisonCommonUtil.addToExecutionContext("FILE_COLUMN_LIST", fileColumnNameList);
+    FileComparisonCommonUtil.addToExecutionContext(MASTER_COLUMN_NAME_ARRAY, masterColumnNames);
+    FileComparisonCommonUtil.addToExecutionContext(SUB_FILE_COLUMN_NAME_ARRAY, subFileColumnNames);
+    allFileColumnNameList.add(masterColumnNames);
+    allFileColumnNameList.add(subFileColumnNames);
+    FileComparisonCommonUtil.addToExecutionContext(ALL_FILE_COLUMN_NAME_LIST, allFileColumnNameList);
     System.out.println("masterColumnNames: " + masterColumnNames.length);
     System.out.println("subFileColumnNames: " + subFileColumnNames.length);
 
     /* -------------------------------------------------------------------------- */
-    FileComparisonCommonUtil.fileMapperToObject(); //Field Mapper Extraction
+    FileComparisonCommonUtil.fileMapperToObject(); //Field Mapper Extraction from resources/Field_Mapper.txt
     initFieldMappingForComparison();
     extractMasterDataFrom_BR_ToObj();
     extractSubFilesDataFrom_BR_ToObj();
@@ -55,7 +57,7 @@ public class FileExtractionProcessImpl implements FileComparisonManager {
 
 
   private void initFieldMappingForComparison() {
-    FieldMapper fieldMapper = (FieldMapper) FileComparisonCommonUtil.getValueFromExeContext("FIELD_MAPPER_OBJECT");
+    FieldMapper fieldMapper = (FieldMapper) FileComparisonCommonUtil.getValueFromExeContext(FIELD_MAPPER_OBJECT);
     fieldMapper = FileComparisonCommonUtil.objectToIndexLocationForFieldMapper(fieldMapper);
     FileComparisonCommonUtil.addToExecutionContext("FIELD_MAPPER_OBJECT", fieldMapper);
 
@@ -64,10 +66,10 @@ public class FileExtractionProcessImpl implements FileComparisonManager {
 
   private void extractMasterDataFrom_BR_ToObj() throws Exception {
 
-    String[] master_column_name_arrays = (String[]) FileComparisonCommonUtil.getValueFromExeContext("MASTER_COLUMN_NAME_ARRAY");
+    //String[] master_column_name_arrays = (String[]) FileComparisonCommonUtil.getValueFromExeContext("MASTER_COLUMN_NAME_ARRAY");
     //MasterFile masterFile = new MasterFile((FileComparisonCommonUtil.countLinesNew(FileComparisonConstant.MASTER_FILE) - 1), master_column_name_arrays.length);
     MasterFile masterFile = new MasterFile();
-    masterBufferedReader = (BufferedReader) FileComparisonCommonUtil.getValueFromExeContext("MASTER_FILE_BUFFERED_READER");
+    masterBufferedReader = (BufferedReader) FileComparisonCommonUtil.getValueFromExeContext(MASTER_FILE_BUFFERED_READER);
     String line;
     Map<String[], String[]> cellValues = masterFile.getCellValues();
     //int masterUniqueField = 0; boolean multipleUniqueFields = false;
@@ -79,9 +81,9 @@ public class FileExtractionProcessImpl implements FileComparisonManager {
     }*/
     String[] key;
     while (Objects.nonNull((line = masterBufferedReader.readLine()))) {
-      key = new String[masterFile.getMasterFileUniqueFieldId().length];
+      key = new String[masterFile.getMasterFileUniqueFieldId_Length()];
       String[] lineArray = line.split(FileComparisonConstant.FILE_DELIMITER, -1);
-      for(int i=0;i<masterFile.getMasterFileUniqueFieldId().length;i++){
+      for(int i=0;i<masterFile.getMasterFileUniqueFieldId_Length();i++){
         key[i] = lineArray[masterFile.getMasterFileUniqueFieldId()[i]];
       }
       cellValues.put(key, lineArray);
@@ -94,7 +96,7 @@ public class FileExtractionProcessImpl implements FileComparisonManager {
 
   private void extractSubFilesDataFrom_BR_ToObj() throws Exception {
     for (int i = 0; i < (FileComparisonConstant.TOTAL_NUMBER_OF_FILE - 1); i++) {
-      subFileBufferedReader = (BufferedReader) FileComparisonCommonUtil.getValueFromExeContext("FILE_1_BUFFERED_READER");
+      subFileBufferedReader = (BufferedReader) FileComparisonCommonUtil.getValueFromExeContext(FILE_1_BUFFERED_READER);
       String[] sub_file_column_name_arrays = (String[]) FileComparisonCommonUtil.getValueFromExeContext("SUB_FILE_COLUMN_NAME_ARRAY");
       //ComparisonFile comparisonFile = new ComparisonFile((FileComparisonCommonUtil.countLinesNew(FileComparisonConstant.FILE_1) - 1), sub_file_column_name_arrays.length);
       ComparisonFile comparisonFile = new ComparisonFile();

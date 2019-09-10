@@ -15,6 +15,9 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Objects;
 
+import static com.file.comparison.util.FileComparisonConstant.FILE_1_BUFFERED_READER;
+import static com.file.comparison.util.FileComparisonConstant.MASTER_FILE_BUFFERED_READER;
+
 public class Application {
 
   public static void main(String ags[]) throws Exception {
@@ -34,8 +37,8 @@ public class Application {
     FileComparisonProcess.preProcess();
     ReportGenerateProcess.preProcess();
 
-    BufferedReader masterBufferedReader = (BufferedReader) executionContext.get("MASTER_FILE_BUFFERED_READER");
-    BufferedReader subFileBufferedReader = (BufferedReader) executionContext.get("FILE_1_BUFFERED_READER");
+    BufferedReader masterBufferedReader = (BufferedReader) executionContext.get(MASTER_FILE_BUFFERED_READER);
+    BufferedReader subFileBufferedReader = (BufferedReader) executionContext.get(FILE_1_BUFFERED_READER);
     masterBufferedReader.close();
     subFileBufferedReader.close();
     long endTime = System.currentTimeMillis();

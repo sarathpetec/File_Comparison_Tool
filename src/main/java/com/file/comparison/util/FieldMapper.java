@@ -7,10 +7,9 @@ import java.util.Map;
 
 public class FieldMapper {
 
-  Map<Integer, LinkedList<String>> fieldMapperFile;
-  LinkedList<MasterColumnName> masterFields;
-  int mFieldSize;
-  int totalRowInFieldMapperFile;
+  private Map<Integer, LinkedList<String>> fieldMapperFile;
+  private LinkedList<MasterColumnName> masterFields;
+  private int totalRowInFieldMapperFile;
 
   public LinkedList<MasterColumnName> getMasterFields() {
     return masterFields;
@@ -18,14 +17,6 @@ public class FieldMapper {
 
   public void setMasterFields(LinkedList<MasterColumnName> masterFields) {
     this.masterFields = masterFields;
-  }
-
-  public int getmFieldSize() {
-    return mFieldSize;
-  }
-
-  public void setmFieldSize(int mFieldSize) {
-    this.mFieldSize = mFieldSize;
   }
 
   public Map<Integer, LinkedList<String>> getFieldMapperFile() {
@@ -42,5 +33,14 @@ public class FieldMapper {
 
   public void setTotalRowInFieldMapperFile(int totalRowInFieldMapperFile) {
     this.totalRowInFieldMapperFile = totalRowInFieldMapperFile;
+  }
+
+  @Override
+  public String toString() {
+    return "FieldMapper{" +
+            "fieldMapperFile=" + fieldMapperFile +
+            ", masterFields=" + masterFields +
+            ", totalRowInFieldMapperFile=" + totalRowInFieldMapperFile +
+            '}';
   }
 }

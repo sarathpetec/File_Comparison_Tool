@@ -6,17 +6,25 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.file.comparison.util.FileComparisonConstant.COMPARISON_UNIQUE_FIELD_ID;
+import static com.file.comparison.util.FileComparisonConstant.MASTER_FILE_UNIQUE_FIELD_ID;
+
 public class MasterFile  extends AbstractComparisonFile {
 
-  String[] fieldNames;
-  Map<String[], String[]> cellValues = new HashMap<>();
-  int[] masterFileUniqueFieldId = {9,8}; //Zero'th index value should be same as comparisonUniqueFieldId
-  int[] comparisonUniqueFieldId = {9};
-  int fieldId;
-  boolean compare_only_data_present_in_master_file = true;
+  private String[] fieldNames;
+  private Map<String[], String[]> cellValues = new HashMap<>();
+  private int[] masterFileUniqueFieldId = MASTER_FILE_UNIQUE_FIELD_ID;
+  private int[] comparisonUniqueFieldId = COMPARISON_UNIQUE_FIELD_ID;
+  private int fieldId;
+  private int masterFileUniqueFieldId_Length = MASTER_FILE_UNIQUE_FIELD_ID.length;
+  private boolean compare_only_data_present_in_master_file = true;
 
   public Map<String[], String[]> getCellValues() {
     return cellValues;
+  }
+
+  public int getMasterFileUniqueFieldId_Length() {
+    return masterFileUniqueFieldId_Length;
   }
 
   public void setCellValues(Map<String[], String[]> cellValues) {

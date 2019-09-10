@@ -35,17 +35,17 @@ public class FileComparisonProcessImpl implements FileComparisonManager {
     List<String[]> missingRecordsList = new ArrayList<>();
     List<String[]> notEqualRecordsList = new ArrayList<>();
     FieldWiseReport[] fieldWiseReports = new FieldWiseReport[masterFieldsLinkedList.size()];
-    String[] missingRecordArray = new String[masterFile.getMasterFileUniqueFieldId().length];
+    String[] missingRecordArray = new String[masterFile.getMasterFileUniqueFieldId_Length()];
     //System.out.println("Field mapper size: "+fieldMapper.getFieldMapperFile().size());
-    String[] tempNotEqualRecordArray = new String[masterFile.getMasterFileUniqueFieldId().length + fieldMapper.getFieldMapperFile().size()];
-    for (int i = 0; i < masterFile.getMasterFileUniqueFieldId().length; i++) {
+    String[] tempNotEqualRecordArray = new String[masterFile.getMasterFileUniqueFieldId_Length() + fieldMapper.getFieldMapperFile().size()];
+    for (int i = 0; i < masterFile.getMasterFileUniqueFieldId_Length(); i++) {
       missingRecordArray[i] = master_column_name_arrays[masterFile.getMasterFileUniqueFieldId()[i]].toUpperCase();
       tempNotEqualRecordArray[i] = master_column_name_arrays[masterFile.getMasterFileUniqueFieldId()[i]].toUpperCase();
     }
-    for (int i = masterFile.getMasterFileUniqueFieldId().length; i < tempNotEqualRecordArray.length; i++) {
-      tempNotEqualRecordArray[i] = fieldMapper.getFieldMapperFile().get(i-masterFile.getMasterFileUniqueFieldId().length).element();
+    for (int i = masterFile.getMasterFileUniqueFieldId_Length(); i < tempNotEqualRecordArray.length; i++) {
+      tempNotEqualRecordArray[i] = fieldMapper.getFieldMapperFile().get(i-masterFile.getMasterFileUniqueFieldId_Length()).element();
       //System.out.println("tempNotEqualRecordArray[i]: "+tempNotEqualRecordArray[i]);
-      // master_column_name_arrays[i - masterFile.getMasterFileUniqueFieldId().length];
+      // master_column_name_arrays[i - masterFile.getMasterFileUniqueFieldId_Length()];
     }
     //Arrays.stream(tempNotEqualRecordArray).forEach(s -> System.out.println("Header: "+s));
     missingRecordsList.add(missingRecordArray);
@@ -57,8 +57,8 @@ public class FileComparisonProcessImpl implements FileComparisonManager {
       ComparisonDetailReport comparisonDetailReport = new ComparisonDetailReport();
       for (Map.Entry<String[], String[]> masterFileCellValue : masterFile.getCellValues().entrySet()) {
 //        System.out.println("Data: "+masterFileCellValue.getKey()[0]+", "+masterFileCellValue.getKey()[1]);
-        tempNotEqualRecordArray = new String[masterFile.getMasterFileUniqueFieldId().length + master_column_name_arrays.length];
-        for (int i = 0; i < masterFile.getMasterFileUniqueFieldId().length; i++) {
+        tempNotEqualRecordArray = new String[masterFile.getMasterFileUniqueFieldId_Length() + master_column_name_arrays.length];
+        for (int i = 0; i < masterFile.getMasterFileUniqueFieldId_Length(); i++) {
           tempNotEqualRecordArray[i] = masterFileCellValue.getKey()[i];
         }
         String masterFileCellData[] = masterFileCellValue.getValue();
@@ -179,7 +179,7 @@ public class FileComparisonProcessImpl implements FileComparisonManager {
     ArrayList<Integer> indexes = indexOfAll(allFieldInSyncLst);
     //System.out.println("indexes : "+indexes);
     for(int i=0;i<indexes.size();i++) {
-      tempNotEqualRecordArray[indexes.get(i) + masterFile.getMasterFileUniqueFieldId().length] = allFieldInSyncLst.get(indexes.get(i));
+      tempNotEqualRecordArray[indexes.get(i) + masterFile.getMasterFileUniqueFieldId_Length()] = allFieldInSyncLst.get(indexes.get(i));
     }
     for (String value : tempNotEqualRecordArray) {
       if (Objects.nonNull(value) && (value.length()>0) && !addToNotEqualRecordsList) {

@@ -9,6 +9,5 @@
 *.iml
 nb-configuration.xml
 target/
-resources/
 src/site/asciidoc/api-docs/generated/
 src/site/asciidoc/api-docs/rest-api-index.adoc

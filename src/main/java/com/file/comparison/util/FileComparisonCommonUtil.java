@@ -59,21 +59,21 @@ public class FileComparisonCommonUtil {
   public static final void fileMapperToObject() throws IOException {
 
     FieldMapper fieldMapper = new FieldMapper();
-    BufferedReader fileMapperBufferedReader = (BufferedReader) FileComparisonCommonUtil.getValueFromExeContext("FIELD_MAPPER_BUFFERED_READER");
+    BufferedReader fileMapperBufferedReader = (BufferedReader) FileComparisonCommonUtil.getValueFromExeContext(FIELD_MAPPER_BUFFERED_READER);
     String line;
-    int i = 0;
-    Map<Integer, LinkedList<String>> fieldMapperFile = new HashMap<>();
-    while (Objects.nonNull((line = fileMapperBufferedReader.readLine()))) {
-      String[] lineArray_with_seperator_split = line.split(FileComparisonConstant.FILE_MAPPER_SEPERATOR, -1);
+    Integer mapIndex = 0;
+    Map<Integer, LinkedList<String>> fieldMapperFile = new HashMap();
+    while (Objects.nonNull(line = fileMapperBufferedReader.readLine())) {
+      String[] lineArray_With_Separator_Split = line.split(FileComparisonConstant.FILE_MAPPER_SEPERATOR, -1);
       LinkedList<String> mappingColumnBetweenFiles = new LinkedList<>();
-      Arrays.stream(lineArray_with_seperator_split).forEach(s -> mappingColumnBetweenFiles.add(s.trim()));
-      fieldMapperFile.put(i, mappingColumnBetweenFiles);
-      i++;
+      Arrays.stream(lineArray_With_Separator_Split).forEach(s -> mappingColumnBetweenFiles.add(s.trim()));
+      fieldMapperFile.put(mapIndex, mappingColumnBetweenFiles);
+      mapIndex++;
+      fieldMapper.setTotalRowInFieldMapperFile(mapIndex);
     }
     fieldMapper.setFieldMapperFile(fieldMapperFile);
     FileComparisonCommonUtil.addToExecutionContext("FIELD_MAPPER_OBJECT", fieldMapper);
-    fieldMapper.getFieldMapperFile().forEach((integer, strings) -> System.out.println("Key: " + integer + ", Value: " + strings));
-
+    fieldMapper.getFieldMapperFile().forEach((key, value) -> System.out.println("Key: " + key + ", Value: " + value +", Size: "+value.size() +", Total row Number: "+fieldMapper.getTotalRowInFieldMapperFile()));
   }
 
   public static String removeSpecialCharacterFromString(String data) {
@@ -82,20 +82,21 @@ public class FileComparisonCommonUtil {
     return data;
   }
 
+  //TODO Optimize the code
   public static final FieldMapper objectToIndexLocationForFieldMapper(FieldMapper fieldMapper) {
     Map<Integer, LinkedList<String>> fieldMapperFile = fieldMapper.getFieldMapperFile();
     LinkedList<MasterColumnName> masterFieldsLinkedList = new LinkedList<>();
     short index = -2;
-    List<String[]> fileColumnNameList = (List<String[]>) FileComparisonCommonUtil.getValueFromExeContext("FILE_COLUMN_LIST");
-
+    List<String[]> allFileColumnNameList = (List<String[]>) FileComparisonCommonUtil.getValueFromExeContext(ALL_FILE_COLUMN_NAME_LIST);
+    int idForMasterColumnName=0;
     for (Map.Entry<Integer, LinkedList<String>> entry : fieldMapperFile.entrySet()) {
-      MasterColumnName masterColumnName = new MasterColumnName();
+
+      MasterColumnName masterColumnName = new MasterColumnName(++idForMasterColumnName);
       //System.out.println("--------:"+entry.getValue().size());
       for (int i = 0; i < entry.getValue().size(); i++) {
-        SubFileColumnName subFileColumnName = new SubFileColumnName();
         String value = entry.getValue().get(i);
-        index = getStringArrayIndex(fileColumnNameList.get(i), value);
-        //System.out.println("-----------------"+value+", Index: "+index);
+        index = getStringArrayIndex(allFileColumnNameList.get(i), value);
+        System.out.println("----------------- Value: "+value+", Index: "+index);
         List<List> mNodeValue = new ArrayList();
         List mNodeConditionPosition = new ArrayList();
         List<List<List>> cNodeValue = new ArrayList();
@@ -106,6 +107,8 @@ public class FileComparisonCommonUtil {
           mNodeValue.add(mNodeConditionPosition);
           masterColumnName.setmNode(mNodeValue);
         }
+
+        SubFileColumnName subFileColumnName = new SubFileColumnName(idForMasterColumnName);
         if(i!=0 && index != -1 && index != -2){ // Other files
           conditionSplitList.add(index);
           fileSplit.add(conditionSplitList);
@@ -119,7 +122,7 @@ public class FileComparisonCommonUtil {
             conditionSplitList = new ArrayList();
             String[] fileSubString_FILE_MAPPER_COMBINATION = value.split(FileComparisonConstant.FILE_MAPPER_COMBINATION);
             for (int j = 0; j < fileSubString_FILE_MAPPER_COMBINATION.length; j++) {
-              index = getStringArrayIndex(fileColumnNameList.get(i), fileSubString_FILE_MAPPER_COMBINATION[j]);
+              index = getStringArrayIndex(allFileColumnNameList.get(i), fileSubString_FILE_MAPPER_COMBINATION[j]);
               //System.out.println("fileSubString_FILE_MAPPER_COMBINATION[j]: "+fileSubString_FILE_MAPPER_COMBINATION[j]+", Index: "+index);
               if(i==0 && index != -1 && index != -2){ // MASTER file
                 mNodeConditionPosition.add(index);
@@ -127,7 +130,7 @@ public class FileComparisonCommonUtil {
               if(i!=0 && index != -1 && index != -2){ // Other files
                 conditionSplitList.add(index);
               }
-             // System.out.println("Index: " + index);
+              // System.out.println("Index: " + index);
             }
             if(i ==0) {
               mNodeValue.add(mNodeConditionPosition);
@@ -156,7 +159,7 @@ public class FileComparisonCommonUtil {
                 String[] someMoreSplit = conditionSplitArray[x].split(FileComparisonConstant.FILE_MAPPER_COMBINATION);
                 conditionSplitList = new ArrayList();
                 for (int charCountTimes = 0; charCountTimes <= charCount; charCountTimes++) {
-                  index = getStringArrayIndex(fileColumnNameList.get(i), someMoreSplit[charCountTimes]);
+                  index = getStringArrayIndex(allFileColumnNameList.get(i), someMoreSplit[charCountTimes]);
                   System.out.println("someMoreSplit[charCountTimes]: "+someMoreSplit[charCountTimes]+", Index: "+index+", I: "+i);
                   if(i==0 && index != -1 && index != -2) { // MASTER file
                     mNodeConditionPosition.add(index);
@@ -173,7 +176,7 @@ public class FileComparisonCommonUtil {
                   conditionSplitList = null;
                 }
               } else{
-                index = getStringArrayIndex(fileColumnNameList.get(i), conditionSplitArray[x]);
+                index = getStringArrayIndex(allFileColumnNameList.get(i), conditionSplitArray[x]);
                 //System.out.println("index*****:"+index);
                 if(i==0 && index != -1 && index != -2){ // MASTER file
                   mNodeConditionPosition.add(index);
@@ -206,9 +209,11 @@ public class FileComparisonCommonUtil {
       }
       masterFieldsLinkedList.add(masterColumnName);
     }
+    System.out.println("---------------------END------------------------------");
     fieldMapper.setMasterFields(masterFieldsLinkedList);
     fieldMapper.setFieldMapperFile(fieldMapperFile);
-    //masterFieldsLinkedList.stream().forEach(masterColumnName1 -> System.out.println("masterColumnName+++: "+masterColumnName1.toString()));
+    masterFieldsLinkedList.stream().forEach(masterColumnName1 -> System.out.println("masterColumnName+++: "+masterColumnName1.toString()));
+    System.out.println("fieldMapper: "+fieldMapper.toString());
     return fieldMapper;
   }
 

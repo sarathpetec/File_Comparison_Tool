@@ -9,6 +9,10 @@ public class SubFileColumnName extends AbstractComparisonFile {
   int id;
   List<List<List>> subFileNode;
 
+  public SubFileColumnName(int id){
+    this.setId(id);
+  }
+
   public int getId() {
     return id;
   }

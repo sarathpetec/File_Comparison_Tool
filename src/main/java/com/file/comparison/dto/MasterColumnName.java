@@ -10,6 +10,10 @@ public class MasterColumnName extends AbstractComparisonFile {
   List<List> mNode;
   SubFileColumnName subFileField;
 
+  public MasterColumnName(int id){
+    this.setId(id);
+  }
+
   public int getId() {
     return id;
   }
