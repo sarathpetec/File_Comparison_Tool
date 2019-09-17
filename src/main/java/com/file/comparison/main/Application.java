@@ -6,7 +6,8 @@ import com.file.comparison.process_manager_impl.FileExtractionProcessImpl;
 import com.file.comparison.process_manager_impl.FileLoadProcessImpl;
 import com.file.comparison.process_manager_impl.ReportGenerateProcessImpl;
 import com.file.comparison.util.FileComparisonConstant;
-import jdk.nashorn.api.scripting.URLReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.io.*;
@@ -16,6 +17,11 @@ import java.util.Objects;
 import static com.file.comparison.util.FileComparisonConstant.*;
 
 public class Application {
+
+  //final static Logger LOGGER = LogManager.getLogManager().getLogger(Application.class);
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
+
 
   public static void main(String ags[]) throws Exception {
     long startTime = System.currentTimeMillis();
@@ -38,7 +44,7 @@ public class Application {
     masterBufferedReader.close();
     subFileBufferedReader.close();
     long endTime = System.currentTimeMillis();
-    System.out.println("Throughput: "+((endTime - startTime)/1000)+" sec");
+    LOGGER.debug("Throughput: {}  sec",(endTime - startTime));
     /*javax.swing.SwingUtilities.invokeLater(new Runnable() {
       public void run() {
         createAndShowGUI();
