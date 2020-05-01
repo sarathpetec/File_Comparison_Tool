@@ -78,10 +78,10 @@ public class FileComparisonProcessImpl implements FileComparisonManager {
             String subFileFieldValue = "";
             if (Objects.nonNull(masterColumnName.getmNode())) {
               if (masterColumnName.getmNode().get(0).size() == 1) {
-                masterFileFieldValue = masterFileCellData[(short) masterColumnName.getmNode().get(0).get(0)];
+                masterFileFieldValue = masterFileCellData[(int) masterColumnName.getmNode().get(0).get(0)];
               } else if (masterColumnName.getmNode().get(0).size() > 1) {
                 for (int a = 0; a < masterColumnName.getmNode().get(0).size(); a++) {
-                  masterFileFieldValue = masterFileFieldValue.concat(masterFileCellData[(short) masterColumnName.getmNode().get(0).get(a)]);
+                  masterFileFieldValue = masterFileFieldValue.concat(masterFileCellData[(int) masterColumnName.getmNode().get(0).get(a)]);
                 }
               } else {
                 masterFileFieldValue = "";
@@ -98,11 +98,11 @@ public class FileComparisonProcessImpl implements FileComparisonManager {
                 if (conditionCaseSize == 1) {
                   subFileConditionSize = masterColumnName.getSubFileField().getSubFileNode().get(0).get(0).size();
                   if (subFileConditionSize == 1) {
-                    subFileFieldValue = subFileCellData[(short) masterColumnName.getSubFileField().getSubFileNode().get(0).get(0).get(0)];
+                    subFileFieldValue = subFileCellData[(int) masterColumnName.getSubFileField().getSubFileNode().get(0).get(0).get(0)];
                   } else {
                     for (int i = 0; i < subFileConditionSize; i++) {
                       for (int j = 0; j < masterColumnName.getSubFileField().getSubFileNode().get(0).get(i).size(); j++) {
-                        subFileFieldValue = subFileFieldValue.concat(subFileCellData[(short) masterColumnName.getSubFileField().getSubFileNode().get(0).get(i).get(j)]);
+                        subFileFieldValue = subFileFieldValue.concat(subFileCellData[(int) masterColumnName.getSubFileField().getSubFileNode().get(0).get(i).get(j)]);
                       }
                       if (subFileFieldValue.length() > 0) {
                         break;
@@ -113,10 +113,10 @@ public class FileComparisonProcessImpl implements FileComparisonManager {
                   subFileFieldValue = "";
                   for (int i = 0; i < conditionCaseSize; i++) {
                     if (masterColumnName.getSubFileField().getSubFileNode().get(0).get(i).size() == 1) {
-                      subFileFieldValue = subFileCellData[(short) masterColumnName.getSubFileField().getSubFileNode().get(0).get(0).get(i)];
+                      subFileFieldValue = subFileCellData[(int) masterColumnName.getSubFileField().getSubFileNode().get(0).get(0).get(i)];
                     } else if (subFileFieldValue.length() == 0) {
                       for (int x = 0; x < masterColumnName.getSubFileField().getSubFileNode().get(0).get(i).size(); x++) {
-                        subFileFieldValue = subFileFieldValue.concat(subFileCellData[(short) masterColumnName.getSubFileField().getSubFileNode().get(0).get(i).get(x)]);
+                        subFileFieldValue = subFileFieldValue.concat(subFileCellData[(int) masterColumnName.getSubFileField().getSubFileNode().get(0).get(i).get(x)]);
                       }
                     }
                   }

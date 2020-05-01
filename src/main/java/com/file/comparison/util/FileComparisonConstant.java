@@ -1,6 +1,5 @@
 package com.file.comparison.util;
 
-import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -26,7 +25,7 @@ public class FileComparisonConstant {
   }*/
 
   public static Map<Object, Object> executionContext = new HashMap<>();
-  public static final short TOTAL_NUMBER_OF_FILE = 2;
+  public static final int TOTAL_NUMBER_OF_FILE = 2;
   public static final String FILE_DELIMITER = ",";
   public static final String FILE_MAPPER_SEPERATOR = "\\|";
   public static final String FILE_MAPPER_COMBINATION = "&";

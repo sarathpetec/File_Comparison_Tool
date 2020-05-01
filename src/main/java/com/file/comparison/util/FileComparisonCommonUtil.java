@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.IntStream;
 
 import static com.file.comparison.util.FileComparisonConstant.*;
 
@@ -91,7 +92,7 @@ public class FileComparisonCommonUtil {
   public static final FieldMapper objectToIndexLocationForFieldMapper(FieldMapper fieldMapper) {
     Map<Integer, LinkedList<String>> fieldMapperFile = fieldMapper.getFieldMapperFile();
     LinkedList<MasterColumnName> masterFieldsLinkedList = new LinkedList<>();
-    short index = -2;
+    int index = -2;
     List<String[]> allFileColumnNameList = (List<String[]>) FileComparisonCommonUtil.getValueFromExeContext(ALL_FILE_COLUMN_NAME_LIST);
     int idForMasterColumnName=0;
     for (Map.Entry<Integer, LinkedList<String>> entry : fieldMapperFile.entrySet()) {
@@ -213,24 +214,19 @@ public class FileComparisonCommonUtil {
       }
       masterFieldsLinkedList.add(masterColumnName);
     }
-    System.out.println("---------------------END------------------------------");
+    LOGGER.debug("---------------------END------------------------------");
     fieldMapper.setMasterFields(masterFieldsLinkedList);
     fieldMapper.setFieldMapperFile(fieldMapperFile);
-    masterFieldsLinkedList.stream().forEach(masterColumnName1 -> System.out.println("masterColumnName+++: "+masterColumnName1.toString()));
-    System.out.println("fieldMapper: "+fieldMapper.toString());
+    masterFieldsLinkedList.stream().forEach(masterColumnName -> LOGGER.debug("masterColumnName : {}", masterColumnName.toString()));
+    LOGGER.debug("fieldMapper: {}", fieldMapper.toString());
     return fieldMapper;
   }
 
 
-  private static short getStringArrayIndex(String[] stringArray, String findTheIndexOfTheString) {
-    short index = -1;
-    for (short i = 0; i < stringArray.length; i++) {
-      if (stringArray[i].equals(findTheIndexOfTheString)) {
-        index = i;
-        break;
-      }
-    }
-    return index;
+  private static int getStringArrayIndex(String[] stringArray, String findTheIndexOfTheString) {
+    return IntStream.range(0, stringArray.length)
+            .filter(i -> (stringArray[i].equals(findTheIndexOfTheString)))
+            .findFirst().orElse(-1);
   }
 
 }
