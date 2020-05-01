@@ -182,7 +182,7 @@ public class FileComparisonCommonUtil {
                 }
               } else{
                 index = getStringArrayIndex(allFileColumnNameList.get(i), conditionSplitArray[x]);
-                //System.out.println("index*****:"+index);
+                LOGGER.debug("Char less tan zero then index value :{}",index);
                 if(i==0 && index != -1 && index != -2){ // MASTER file
                   mNodeConditionPosition.add(index);
                   mNodeValue.add(mNodeConditionPosition);
@@ -194,7 +194,6 @@ public class FileComparisonCommonUtil {
                 }
               }
               if(i!=0 && index != -1 && index != -2 && Objects.nonNull(conditionSplitList)){ // Other files
-                //System.out.println("***************////");
                 fileSplit.add(conditionSplitList);
               }
             }
@@ -202,7 +201,7 @@ public class FileComparisonCommonUtil {
               mNodeValue.add(mNodeConditionPosition);
               masterColumnName.setmNode(mNodeValue);
             }
-            //Arrays.stream(conditionSplitArray).forEach(s -> System.out.println(s));
+            Arrays.stream(conditionSplitArray).forEach(splitArrayString -> LOGGER.debug(splitArrayString));
           }
         }
         //subFileColumnName.setSubFileNode(cNodeValue);
