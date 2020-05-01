@@ -87,7 +87,7 @@ public class FileComparisonProcessImpl implements FileComparisonManager {
                 masterFileFieldValue = "";
               }
             } else {
-              masterFileFieldValue = NO_MAPPPING_WITH_OTHER_FILE;
+              masterFileFieldValue = NO_MAPPING_WITH_OTHER_FILE;
             }
             /* Sub file going to start*/
             if (Objects.nonNull(masterColumnName.getSubFileField().getSubFileNode()) && masterColumnName.getSubFileField().getSubFileNode().size() > 0) {
@@ -126,7 +126,7 @@ public class FileComparisonProcessImpl implements FileComparisonManager {
                 System.out.println("More than one file in sub file list");
               }
             } else {
-              subFileFieldValue = NO_MAPPPING_WITH_OTHER_FILE;
+              subFileFieldValue = NO_MAPPING_WITH_OTHER_FILE;
             }
             //System.out.println("masterFileFieldValue: "+masterFileFieldValue+", subFileFieldValue: "+subFileFieldValue);
             findMatchingCell(masterFileFieldValue, subFileFieldValue, fieldWiseReport);
@@ -204,7 +204,7 @@ public class FileComparisonProcessImpl implements FileComparisonManager {
       fieldWiseReport.setSubFileEmptyValueCount(fieldWiseReport.getSubFileEmptyValueCount() + 1);
       allFieldInSyncLst.add(masterFileFieldValue.concat("||").concat(subFileFieldValue));
       fieldWiseReport.setDifferentValuesInAllFileCount(fieldWiseReport.getDifferentValuesInAllFileCount() + 1);
-    } else if (NO_MAPPPING_WITH_OTHER_FILE.equals(masterFileFieldValue) || NO_MAPPPING_WITH_OTHER_FILE.equals(subFileFieldValue)) {
+    } else if (NO_MAPPING_WITH_OTHER_FILE.equals(masterFileFieldValue) || NO_MAPPING_WITH_OTHER_FILE.equals(subFileFieldValue)) {
       allFieldInSyncLst.add(masterFileFieldValue.concat("||").concat(subFileFieldValue));
     } else {
       checkMatch(masterFileFieldValue, subFileFieldValue, fieldWiseReport);

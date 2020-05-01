@@ -16,9 +16,10 @@ import java.util.Objects;
 
 import static com.file.comparison.util.FileComparisonConstant.*;
 
+/**
+ * The Application class is a the beginning of the file comparison component
+ */
 public class Application {
-
-  //final static Logger LOGGER = LogManager.getLogManager().getLogger(Application.class);
 
   private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
 
@@ -53,25 +54,33 @@ public class Application {
 
   }
 
+  /**
+   * This method will help to read the file from the resourse folder.
+   *
+   * @return         void
+   */
   private static void readText() {
-    // The name of the file to open.
 
-    // This will reference one line at a time
     String line = null;
-
     try (InputStreamReader inputStreamReader =
         new InputStreamReader(Application.class.getResourceAsStream(FILE_1))) {
       BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
       while (Objects.nonNull((line = bufferedReader.readLine()))) {
-        System.out.println(line);
+        LOGGER.debug(line);
       }
     } catch (FileNotFoundException ex) {
-      System.out.println("Unable to open file '" + FileComparisonConstant.FILE_1 + "'");
+      LOGGER.debug("Unable to open file : {}" , FileComparisonConstant.FILE_1);
     } catch (IOException ex) {
-      System.out.println("Error reading file '" + FileComparisonConstant.FILE_1 + "'");
+      LOGGER.debug("Error reading file : {}" , FileComparisonConstant.FILE_1);
     }
   }
 
+  /**
+   * This is an ongoing task
+   * createAndShowGUI method help to popup a small gui and help to browse different files.
+   *
+   * @return         the post-incremented value
+   */
   private static void createAndShowGUI() {
     //Make sure we have nice window decorations.
     JFrame.setDefaultLookAndFeelDecorated(true);

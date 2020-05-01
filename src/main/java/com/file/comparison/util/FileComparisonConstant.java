@@ -36,9 +36,8 @@ public class FileComparisonConstant {
   public static final String FILE_MAPPER_CLOSING_BRACKET = ")";
   public static final String FILE_ENCAPSULATE = "$$";
   public static final Boolean CONSIDER_CASE_IN_CHECKING = false;
-  public static final String NOT_EQUAL_REPERSENTING_STRING = "C";
   public static final char DEFAULT_SEPARATOR_FOR_CSV = ',';
-  public static final String NO_MAPPPING_WITH_OTHER_FILE = "NO_MAPPPING_WITH_OTHER_FILE";
+  public static final String NO_MAPPING_WITH_OTHER_FILE = "NO_MAPPING_WITH_OTHER_FILE";
 
   public static final int[] MASTER_FILE_UNIQUE_FIELD_ID = {0,0}; //Zero'th index value should be same as comparisonUniqueFieldId
   public static final int[] COMPARISON_UNIQUE_FIELD_ID = {0};

@@ -2,6 +2,8 @@ package com.file.comparison.util;
 
 import com.file.comparison.dto.MasterColumnName;
 import com.file.comparison.dto.SubFileColumnName;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.*;
@@ -9,6 +11,9 @@ import java.util.*;
 import static com.file.comparison.util.FileComparisonConstant.*;
 
 public class FileComparisonCommonUtil {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(FileComparisonCommonUtil.class);
+
 
   public static void addToExecutionContext(Object key, Object value) {
     FileComparisonConstant.executionContext.put(key, value);
@@ -41,7 +46,7 @@ public class FileComparisonCommonUtil {
 
       // count remaining characters
       while (readChars != -1) {
-        System.out.println(readChars);
+        LOGGER.debug("readChars : {}", readChars);
         for (int i = 0; i < readChars; ++i) {
           if (c[i] == '\n') {
             ++count;
@@ -73,7 +78,7 @@ public class FileComparisonCommonUtil {
     }
     fieldMapper.setFieldMapperFile(fieldMapperFile);
     FileComparisonCommonUtil.addToExecutionContext("FIELD_MAPPER_OBJECT", fieldMapper);
-    fieldMapper.getFieldMapperFile().forEach((key, value) -> System.out.println("Key: " + key + ", Value: " + value +", Size: "+value.size() +", Total row Number: "+fieldMapper.getTotalRowInFieldMapperFile()));
+    fieldMapper.getFieldMapperFile().forEach((key, value) -> LOGGER.debug("Key: {}, Value: {}, Size: {},  Total row Number: {}", key,value,value.size(),fieldMapper.getTotalRowInFieldMapperFile()));
   }
 
   public static String removeSpecialCharacterFromString(String data) {
@@ -92,11 +97,11 @@ public class FileComparisonCommonUtil {
     for (Map.Entry<Integer, LinkedList<String>> entry : fieldMapperFile.entrySet()) {
 
       MasterColumnName masterColumnName = new MasterColumnName(++idForMasterColumnName);
-      //System.out.println("--------:"+entry.getValue().size());
+      LOGGER.debug("Key : {}, LinkedList Size: {}"+entry.getKey(), entry.getValue().size());
       for (int i = 0; i < entry.getValue().size(); i++) {
         String value = entry.getValue().get(i);
         index = getStringArrayIndex(allFileColumnNameList.get(i), value);
-        System.out.println("----------------- Value: "+value+", Index: "+index);
+        LOGGER.debug("Value: {}, Index: {}", value, index);
         List<List> mNodeValue = new ArrayList();
         List mNodeConditionPosition = new ArrayList();
         List<List<List>> cNodeValue = new ArrayList();
@@ -117,20 +122,20 @@ public class FileComparisonCommonUtil {
           masterColumnName.setSubFileField(subFileColumnName);
         }
         if (index == -1 && !value.isEmpty()) {
-          System.out.println("Value 1: " + value);
+          LOGGER.debug("Value : {}",  value);
           if (value.contains(FileComparisonConstant.FILE_MAPPER_COMBINATION) && (!value.contains(FILE_MAPPER_IF_CASE + FILE_MAPPER_OPENING_BRACKET))) {
             conditionSplitList = new ArrayList();
             String[] fileSubString_FILE_MAPPER_COMBINATION = value.split(FileComparisonConstant.FILE_MAPPER_COMBINATION);
             for (int j = 0; j < fileSubString_FILE_MAPPER_COMBINATION.length; j++) {
               index = getStringArrayIndex(allFileColumnNameList.get(i), fileSubString_FILE_MAPPER_COMBINATION[j]);
-              //System.out.println("fileSubString_FILE_MAPPER_COMBINATION[j]: "+fileSubString_FILE_MAPPER_COMBINATION[j]+", Index: "+index);
+              //LOGGER.debug("fileSubString_FILE_MAPPER_COMBINATION[j]: "+fileSubString_FILE_MAPPER_COMBINATION[j]+", Index: "+index);
               if(i==0 && index != -1 && index != -2){ // MASTER file
                 mNodeConditionPosition.add(index);
               }
               if(i!=0 && index != -1 && index != -2){ // Other files
                 conditionSplitList.add(index);
               }
-              // System.out.println("Index: " + index);
+              LOGGER.debug("Index: {}", index);
             }
             if(i ==0) {
               mNodeValue.add(mNodeConditionPosition);
@@ -143,7 +148,7 @@ public class FileComparisonCommonUtil {
             }
           }
           if ((value.contains(FILE_MAPPER_IF_CASE+FILE_MAPPER_OPENING_BRACKET)) && value.contains(FILE_MAPPER_CLOSING_BRACKET+FILE_MAPPER_ELSE_CASE+FILE_MAPPER_OPENING_BRACKET)) {
-            System.out.println("Value: " + value);
+            LOGGER.debug("Value: {}", value);
             String[] conditionSplitArray = value.split(FileComparisonConstant.FILE_MAPPER_ELSE_CASE);
             for (int x =0; x<conditionSplitArray.length;x++) {
               mNodeConditionPosition = new ArrayList();
@@ -152,21 +157,21 @@ public class FileComparisonCommonUtil {
               conditionSplitArray[x] = conditionSplitArray[x].replaceAll("\\"+FILE_MAPPER_OPENING_BRACKET, "");
               conditionSplitArray[x] = conditionSplitArray[x].contains("\\"+FILE_MAPPER_CLOSING_BRACKET+FILE_MAPPER_CLOSING_BRACKET)?
                       conditionSplitArray[x].replaceAll("\\"+FILE_MAPPER_CLOSING_BRACKET+FILE_MAPPER_CLOSING_BRACKET, ""):conditionSplitArray[x];
-              System.out.println("conditionSplitArray[x]: "+conditionSplitArray[x]);
+              LOGGER.debug("conditionSplitArray[x]: {}", conditionSplitArray[x]);
               long charCount = conditionSplitArray[x].chars().filter(ch -> ch == '&').count();
-              //System.out.println("charCount: "+charCount);
+              LOGGER.debug("charCount: {}",charCount);
               if(charCount>0) {
                 String[] someMoreSplit = conditionSplitArray[x].split(FileComparisonConstant.FILE_MAPPER_COMBINATION);
                 conditionSplitList = new ArrayList();
                 for (int charCountTimes = 0; charCountTimes <= charCount; charCountTimes++) {
                   index = getStringArrayIndex(allFileColumnNameList.get(i), someMoreSplit[charCountTimes]);
-                  System.out.println("someMoreSplit[charCountTimes]: "+someMoreSplit[charCountTimes]+", Index: "+index+", I: "+i);
+                  LOGGER.debug("someMoreSplit[charCountTimes]: {}, Index: {}, I: {}", someMoreSplit[charCountTimes],index,i);
                   if(i==0 && index != -1 && index != -2) { // MASTER file
                     mNodeConditionPosition.add(index);
                     //mNodeValue.add(mNodeConditionPosition);
                     //masterColumnName.setmNode(mNodeValue);
                   } else { // Other files
-                    //System.out.println("elseeeeeeeeeeeeeeeee: "+index);
+                    LOGGER.debug("Other file Index number : {} ",index);
                     conditionSplitList.add(index);
 
                   }
