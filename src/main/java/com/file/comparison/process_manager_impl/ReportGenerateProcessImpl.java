@@ -19,8 +19,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.file.comparison.util.FileComparisonCommonUtil.getValueFromExeContext;
-import static com.file.comparison.util.FileComparisonConstant.EMPTY_STRING;
-import static com.file.comparison.util.FileComparisonConstant.NULL;
+import static com.file.comparison.util.FileComparisonConstant.*;
 
 public class ReportGenerateProcessImpl implements FileComparisonManager {
 
@@ -35,7 +34,7 @@ public class ReportGenerateProcessImpl implements FileComparisonManager {
   public void preProcess() throws Exception {
     MasterFile masterFile = (MasterFile) getValueFromExeContext("MASTER_FILE_OBJECT");
     ComparisonFile comparisonFile = (ComparisonFile) FileComparisonCommonUtil.getValueFromExeContext("COMPARISON_FILE_OBJECT");
-    ComparisonReportDTO comparisonReportDTO = (ComparisonReportDTO) FileComparisonCommonUtil.getValueFromExeContext("COMPARISON_REPORT_DTO");
+    ComparisonReportDTO comparisonReportDTO = (ComparisonReportDTO) FileComparisonCommonUtil.getValueFromExeContext(COMPARISON_REPORT_DTO);
     ArrayList<ComparisonDetailReport> comparison_detail_reports = (ArrayList<ComparisonDetailReport>) FileComparisonCommonUtil.getValueFromExeContext("COMPARISON_DETAIL_REPORT");
     System.out.println("#################################################################################################");
     System.out.println("###################################-COMPARISON REPORT-###########################################");

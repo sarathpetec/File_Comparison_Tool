@@ -48,6 +48,10 @@ public class FileComparisonConstant {
   public static final String SUB_FILE_COLUMN_NAME_ARRAY = "SUB_FILE_COLUMN_NAME_ARRAY";
   public static final String ALL_FILE_COLUMN_NAME_LIST = "ALL_FILE_COLUMN_NAME_LIST";
   public static final String FIELD_MAPPER_OBJECT = "FIELD_MAPPER_OBJECT";
+  public static final String COMPARISON_REPORT_DTO = "COMPARISON_REPORT_DTO";
+  public static final String CONDITION_TRUE = "true";
+  public static final String CONDITION_FALSE = "false";
+
 
   public static final String NULL = "null" ;
   public static final String EMPTY_STRING = "";
