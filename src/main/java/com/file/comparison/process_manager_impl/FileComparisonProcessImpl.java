@@ -34,7 +34,7 @@ public class FileComparisonProcessImpl implements FileComparisonManager {
     LinkedList<MasterColumnName> masterFieldsLinkedList = fieldMapper.getMasterFields();
     //LOGGER.debug("masterFieldsLinkedList.size(): {}",  masterFieldsLinkedList.size());
     //masterFieldsLinkedList.stream().forEach(masterColumnNames -> LOGGER.debug("masterColumnNames: {}", masterColumnNames));
-    MasterFile masterFile = (MasterFile) getValueFromExeContext("MASTER_FILE_OBJECT");
+    MasterFile masterFile = (MasterFile) getValueFromExeContext(MASTER_FILE_OBJECT);
     ComparisonFile comparisonFile = (ComparisonFile) FileComparisonCommonUtil.getValueFromExeContext("COMPARISON_FILE_OBJECT");
     MissingRecords missingRecords = new MissingRecords();
     NotEqualRecords notEqualRecords = new NotEqualRecords();
@@ -180,7 +180,7 @@ public class FileComparisonProcessImpl implements FileComparisonManager {
 
   private void addToNotEqualList(ArrayList<String> allFieldInSyncLst, List<String[]> notEqualRecordsList, String[] tempNotEqualRecordArray) {
     boolean addToNotEqualRecordsList = false;
-    MasterFile masterFile = (MasterFile) getValueFromExeContext("MASTER_FILE_OBJECT");
+    MasterFile masterFile = (MasterFile) getValueFromExeContext(MASTER_FILE_OBJECT);
     //LOGGER.debug("allFieldInSyncLst: {}", allFieldInSyncLst);
     ArrayList<Integer> indexes = (ArrayList<Integer>) indexOfAll(allFieldInSyncLst);
     //LOGGER.debug("indexes : {}", indexes);

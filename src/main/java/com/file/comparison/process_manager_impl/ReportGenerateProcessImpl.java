@@ -32,7 +32,7 @@ public class ReportGenerateProcessImpl implements FileComparisonManager {
 
   @Override
   public void preProcess() throws Exception {
-    MasterFile masterFile = (MasterFile) getValueFromExeContext("MASTER_FILE_OBJECT");
+    MasterFile masterFile = (MasterFile) getValueFromExeContext(MASTER_FILE_OBJECT);
     ComparisonFile comparisonFile = (ComparisonFile) FileComparisonCommonUtil.getValueFromExeContext("COMPARISON_FILE_OBJECT");
     ComparisonReportDTO comparisonReportDTO = (ComparisonReportDTO) FileComparisonCommonUtil.getValueFromExeContext(COMPARISON_REPORT_DTO);
     ArrayList<ComparisonDetailReport> comparison_detail_reports = (ArrayList<ComparisonDetailReport>) FileComparisonCommonUtil.getValueFromExeContext("COMPARISON_DETAIL_REPORT");

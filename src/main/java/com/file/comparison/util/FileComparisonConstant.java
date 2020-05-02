@@ -49,6 +49,7 @@ public class FileComparisonConstant {
   public static final String ALL_FILE_COLUMN_NAME_LIST = "ALL_FILE_COLUMN_NAME_LIST";
   public static final String FIELD_MAPPER_OBJECT = "FIELD_MAPPER_OBJECT";
   public static final String COMPARISON_REPORT_DTO = "COMPARISON_REPORT_DTO";
+  public static final String MASTER_FILE_OBJECT = "MASTER_FILE_OBJECT";
   public static final String CONDITION_TRUE = "true";
   public static final String CONDITION_FALSE = "false";
 
