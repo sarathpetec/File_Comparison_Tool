@@ -2,17 +2,17 @@ package com.file.comparison.process_manager_impl;
 
 import com.file.comparison.process_manager.FileComparisonManager;
 import com.file.comparison.util.FileComparisonCommonUtil;
-import com.file.comparison.util.FileComparisonConstant;
-import jdk.nashorn.api.scripting.URLReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.stream.Collectors;
 
 import static com.file.comparison.util.FileComparisonConstant.*;
 
 public class FileLoadProcessImpl implements FileComparisonManager {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(FileLoadProcessImpl.class);
 
   public FileLoadProcessImpl() {
   }
