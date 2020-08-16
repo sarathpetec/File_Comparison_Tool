@@ -13,3 +13,5 @@ src/site/asciidoc/api-docs/generated/
 src/site/asciidoc/api-docs/rest-api-index.adoc
 src/main/resources/*.csv
 application.log
+#Ignore Hiden Files
+.*
